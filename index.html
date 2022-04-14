@@ -63,12 +63,20 @@
             const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
             // Prediction 2: run input through teachable machine classification model
             const prediction = await model.predict(posenetOutput);
-
-            for (let i = 0; i < maxPredictions; i++) {
-                const classPrediction =
-                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                labelContainer.childNodes[i].innerHTML = classPrediction;
+            if(prediction[0].className == "stand" && prediction[0].probability.toFixed(2) == 1.00) {
+                labelContainer.childNodes[0].innerHTML = "stand 준비완료 "
+            } else if(prediction[1].className == "right" && prediction[1].probability.toFixed(2) == 1.00) {
+                labelContainer.childNodes[0].innerHTML = "동작성공 콩그레츌레이션!! "
+            } else if(prediction[2].className == "right" && prediction[2].probability.toFixed(2) == 1.00) {
+                labelContainer.childNodes[0].innerHTML = "잘못된 자세입니다."
+            } else {
+                labelContainer.childNodes[0].innerHTML = "동작을 다시 해보세요."
             }
+            // for (let i = 0; i < maxPredictions; i++) {
+            //     const classPrediction =
+            //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            //     labelContainer.childNodes[i].innerHTML = classPrediction;
+            // }
 
             // finally draw the poses
             drawPose(pose);
