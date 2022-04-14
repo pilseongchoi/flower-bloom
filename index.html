@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./speech.js"></script>
+    <script src="./tts.js"></script>
     <title>Document</title>
+
 </head>
 
 <body>
@@ -63,11 +66,11 @@
             const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
             // Prediction 2: run input through teachable machine classification model
             const prediction = await model.predict(posenetOutput);
-            if(prediction[0].className == "stand" && prediction[0].probability.toFixed(2) == 1.00) {
-                labelContainer.childNodes[0].innerHTML = "stand 준비완료 "
-            } else if(prediction[1].className == "right" && prediction[1].probability.toFixed(2) == 1.00) {
+            if (prediction[0].className == "stand" && prediction[0].probability.toFixed(2) == 1.00) {
+                labelContainer.childNodes[0].innerHTML = "stand 준비완료. '안녕하세요'라고 인사해보세요. "
+            } else if (prediction[1].className == "right" && prediction[1].probability.toFixed(2) == 1.00) {
                 labelContainer.childNodes[0].innerHTML = "동작성공 콩그레츌레이션!! "
-            } else if(prediction[2].className == "right" && prediction[2].probability.toFixed(2) == 1.00) {
+            } else if (prediction[2].className == "wrong" && prediction[2].probability.toFixed(2) == 1.00) {
                 labelContainer.childNodes[0].innerHTML = "잘못된 자세입니다."
             } else {
                 labelContainer.childNodes[0].innerHTML = "동작을 다시 해보세요."
